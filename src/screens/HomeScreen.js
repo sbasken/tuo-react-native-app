@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View,TouchableOpacity, onPress, SafeAreaView } from "react-native";
+import { Text, View,TouchableOpacity, onPress, SafeAreaView, FlatList, StatusBar } from "react-native";
 import { CommonStyles } from "../styles/CommonStyles";
 import Room from "../components/Room";
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -42,16 +42,27 @@ const HomeScreen = ({ navigation }) => {
             },
         ])
     },[])
-    
 
     return (
         <SafeAreaView style={CommonStyles.wrapper}>
             <View style={CommonStyles.container}>
                 <Text style={CommonStyles.title}>Rooms</Text>
                 <View style={CommonStyles.listContainer}>
-                    { rooms?.map((room) => {
+                <FlatList
+                        style={{'width': '100%'}}
+                        data={ rooms || []}
+                        keyExtractor={item => item.id}
+                        renderItem={({ item }) => (
+                            <Room
+                                name={item.name}
+                                onPress={() => navigation.navigate('Devices')}
+                            />
+                        )}
+                        ListEmptyComponent={<><Text>No Rooms Yet. </Text><Text>Wanna add a room to your account?</Text></>}
+                    />
+                    {/* { rooms?.map((room) => {
                         return <Room key={room.id} name={room.name} isOn={room.isOn} onPress={() => navigation.navigate('Devices')}/>
-                    })}
+                    })} */}
                     <TouchableOpacity style={CommonStyles.itemButton} onPress={onPress}>
                         <Icon name="add" size={20} />
                     </TouchableOpacity>

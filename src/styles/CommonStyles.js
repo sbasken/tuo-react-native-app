@@ -1,9 +1,10 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, StatusBar } from 'react-native';
 
 export const CommonStyles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        backgroundColor: '#FFF'
+        backgroundColor: '#FFF',
+        marginTop: StatusBar.currentHeight || 0,
     },
     container: {
         flex: 1,
@@ -21,6 +22,7 @@ export const CommonStyles = StyleSheet.create({
     },
     listContainer: {
         flex: 1,
+        width: '100%',
         alignItems: 'left',
         marginHorizontal: 10,
         marginVertical: 10,

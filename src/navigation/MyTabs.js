@@ -11,7 +11,7 @@ const MyTabs = () => {
   return (
     <Tab.Navigator
       tabBarOptions={{
-        showLabel: false
+        showLabel: true
       }}
       screenOptions={({ route }) => ({
         headerShown: false,
@@ -35,7 +35,7 @@ const MyTabs = () => {
         tabBarActiveTintColor: '#7D55C7',
         tabBarInactiveTintColor: 'grey',
         tabBarLabelStyle: {
-          fontSize: 15,
+          fontSize: 11,
         },
         tabBarStyle: [{ display: 'flex' }],
       })}

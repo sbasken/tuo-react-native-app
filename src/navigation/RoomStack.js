@@ -9,7 +9,7 @@ const Stack = createNativeStackNavigator();
 function RoomStack() {
   return (
     <Stack.Navigator
-        // screenOptions={{ headerShown: false }}
+        screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Rooms" component={HomeScreen}  headerShown={false}/>
       <Stack.Screen name="Devices" component={DevicesScreen} />
