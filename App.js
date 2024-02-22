@@ -1,37 +1,33 @@
 import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StartUpScreen } from './src/screens/StartUpScreen';
 import 'react-native-gesture-handler';
-import MyTabs from './src/navigation/MyTabs';
 import { SafeAreaView, Button } from 'react-native';
 import { CommonStyles } from './src/styles/CommonStyles';
 import MyDrawer from './src/navigation/MyDrawer';
+import UserContext
+ from './src/contexts/UserContext';
+import { StartUpScreen } from './src/screens/StartUpScreen';
+import AuthStack from './src/navigation/AuthStack';
+
 
 const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator();
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  console.log("isLoggedIn", isLoggedIn); 
 
-  const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   return (
     <SafeAreaView style={CommonStyles.wrapper}>
-      <NavigationContainer>
-        <Stack.Navigator 
-          screenOptions={{
-            headerShown: false
-          }}
-        >
-          {isLoggedIn ? (<>
-            <MyDrawer />
-            <Stack.Screen name="MyTabs" component={MyTabs} />
-          </>
-          ) : (
-            // <Stack.Screen name="StartUp">
-            //   {() => <StartUpScreen setIsLoggedIn={setIsLoggedIn} />}
-            // </Stack.Screen>
-            <Stack.Screen
+      <UserContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+        <NavigationContainer>
+          <Stack.Navigator 
+            screenOptions={{
+              headerShown: false
+            }}
+          >
+            {isLoggedIn ? (
+              <Stack.Screen
               name="MainApp"
               component={MyDrawer}
               options={({ navigation }) => ({
@@ -41,13 +37,26 @@ export default function App() {
                     title="Settings"
                   />
                 ),
-                headerShown: false, // Show header if you want the settings button to be visible
+                headerShown: false
             })}
-          />
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
+        />
+            ) : (
+              <>
+                <Stack.Screen
+                  name="StartUp"
+                  component={StartUpScreen}
+                />
+                <Stack.Screen
+                  name="Auth"
+                  component={AuthStack}
+                  options={{ headerShown: false }}
+                />
+              </>
+
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </UserContext.Provider>
     </SafeAreaView>
-    
   );
 }
